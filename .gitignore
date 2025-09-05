@@ -1,5 +1,10 @@
 # --- IDE / Editor ---
-.idea/                  # PyCharm
+.idea/
+/.idea/modules.xml
+/.idea/inspectionProfiles/profiles_settings.xml
+/.idea/inspectionProfiles/Project_Default.xml
+/.idea/synthetic-biomedical-data-course.iml
+/.idea/workspace.xml
 *.swp                   # Vim-Swapfiles
 
 # --- Python Basics ---
