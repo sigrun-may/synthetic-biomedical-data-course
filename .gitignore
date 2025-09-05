@@ -1,0 +1,63 @@
+# --- IDE / Editor ---
+.idea/                  # PyCharm
+*.swp                   # Vim-Swapfiles
+
+# --- Python Basics ---
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+*.egg
+*.egg-info/
+.eggs/
+
+# --- Virtual Environments ---
+.venv/
+venv/
+env/
+ENV/
+
+# --- Packaging / Build ---
+build/
+dist/
+*.egg-info/
+
+# --- Jupyter ---
+.ipynb_checkpoints/
+.jupyter/
+
+# --- Logs / Caches ---
+*.log
+*.out
+*.err
+.cache/
+pytest_cache/
+.mypy_cache/
+.dmypy.json
+.pytest_cache/
+.tox/
+.coverage
+htmlcov/
+
+
+_build/
+site/
+docs/_build/
+
+**/*.nbconvert.ipynb
+
+# --- Data / Models ---
+data/
+*.h5
+*.hdf5
+*.pkl
+*.joblib
+*.npy
+*.npz
+*.pt
+*.ckpt
+
+#*.csv
+#*.tsv
+#*.xlsx
