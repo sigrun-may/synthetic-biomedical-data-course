@@ -1,7 +1,7 @@
 # Synthetic Biomedical Data — Learning Module
 
 Welcome to the **Synthetic Biomedical Data** learning module.  
-This course introduces the concept of artificially generated biomedical datasets, 
+This project is an **Open Educational Resource (OER)** that introduces the concepts of synthetic biomedical datasets,
 explains why they are useful, and provides hands-on exercises in **Jupyter Notebooks**.
 
 ---
@@ -87,15 +87,7 @@ After completing all notebooks, you will be able to:
 - Understand the effects of irrelevant features, correlations, pseudo-classes, and random effects.  
 - Visualize and interpret these challenges.  
 - Export datasets for feature selection and machine learning tasks.  
-- Apply these insights when working with real biomedical data.  
-
----
-
-## 🚀 Get Started Instantly (GitHub Codespaces)
-
-[![Open in GitHub Codespaces](https://github.com/codespaces/badge.svg)](https://github.com/sigrun-may/synthetic-data-tutorial/codespaces)
-
-No setup required — just click the button above (or use **Code → Open with Codespaces**) and start exploring in your browser.
+- Apply these insights when working with real biomedical data.
 
 ---
 
@@ -108,23 +100,34 @@ In the final version of this course, we will provide **one-click online environm
 
 ---
 
-## 📚 Repository Contents
+## 🛠️ Local Setup
 
-- `notebooks/` – Jupyter notebooks for lessons and exercises  
-- `data/` – Sample synthetic datasets  
-- `requirements.txt` – Python dependencies  
-- `.devcontainer/` – Config for Codespaces / VS Code remote dev  
+This project uses [Poetry](https://python-poetry.org/) for reproducible environments.
 
----
+1. Install Poetry (if not already installed):
+```bash
+   pipx install poetry
+```
 
-## 🛠️ Local Setup (optional)
+2. Clone the repository:
 
-If you prefer running locally:
+Copy code
+```bash
+    git clone https://github.com/your-org/synthetic-biomedical-data-course.git
+    cd synthetic-biomedical-data-course
+```
+
+3. Install dependencies:
 
 ```bash
-git clone https://github.com/sigrun-may/synthetic-data-tutorial.git
-cd synthetic-data-tutorial
-python -m venv .venv
-source .venv/bin/activate  # (use .venv\Scripts\activate on Windows)
-pip install -r requirements.txt
-jupyter lab
+poetry install
+```
+
+## 📖 License
+
+This project uses a dual-license model:
+
+- **Code**: MIT (see `LICENSE`)
+- **Educational content (notebooks, text, images)**: CC BY 4.0 (see `OER-LICENSE.txt`)
+- 
+You are free to use, adapt, and share the materials under these terms.
