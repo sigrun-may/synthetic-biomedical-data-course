@@ -1,6 +1,7 @@
 # Synthetic Biomedical Data — Learning Module
 
 Welcome to the **Synthetic Biomedical Data** learning module.  
+
 This project is an **Open Educational Resource (OER)** that introduces the concepts of synthetic biomedical datasets,
 explains why they are useful, and provides hands-on exercises in **Jupyter Notebooks**.
 
@@ -106,15 +107,14 @@ This project uses [Poetry](https://python-poetry.org/) for reproducible environm
 
 1. Install Poetry (if not already installed):
 ```bash
-   pipx install poetry
+pipx install poetry
 ```
 
 2. Clone the repository:
 
-Copy code
 ```bash
-    git clone https://github.com/your-org/synthetic-biomedical-data-course.git
-    cd synthetic-biomedical-data-course
+git clone https://github.com/your-org/synthetic-biomedical-data-course.git
+cd synthetic-biomedical-data-course
 ```
 
 3. Install dependencies:
@@ -129,5 +129,5 @@ This project uses a dual-license model:
 
 - **Code**: MIT (see `LICENSE`)
 - **Educational content (notebooks, text, images)**: CC BY 4.0 (see `OER-LICENSE.txt`)
-- 
+
 You are free to use, adapt, and share the materials under these terms.
