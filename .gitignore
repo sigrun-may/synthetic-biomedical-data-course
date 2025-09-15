@@ -1,11 +1,7 @@
 # --- IDE / Editor ---
 .idea/
-/.idea/modules.xml
-/.idea/inspectionProfiles/profiles_settings.xml
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/synthetic-biomedical-data-course.iml
-/.idea/workspace.xml
-*.swp                   # Vim-Swapfiles
+.vscode/
+*.swp                   # Vim swap files
 
 # --- Python Basics ---
 __pycache__/
@@ -26,11 +22,12 @@ ENV/
 # --- Packaging / Build ---
 build/
 dist/
-*.egg-info/
 
 # --- Jupyter ---
 .ipynb_checkpoints/
+.notebooks_cache/
 .jupyter/
+**/*.nbconvert.ipynb
 
 # --- Logs / Caches ---
 *.log
@@ -40,17 +37,14 @@ dist/
 pytest_cache/
 .mypy_cache/
 .dmypy.json
-.pytest_cache/
 .tox/
 .coverage
 htmlcov/
 
-
+# --- Docs ---
 _build/
 site/
 docs/_build/
-
-**/*.nbconvert.ipynb
 
 # --- Data / Models ---
 data/
@@ -63,6 +57,6 @@ data/
 *.pt
 *.ckpt
 
-#*.csv
-#*.tsv
-#*.xlsx
+# --- OS files ---
+.DS_Store
+Thumbs.db
