@@ -7,9 +7,12 @@ Usage in notebooks:
 """
 
 from __future__ import annotations
+
 import pathlib
+
 import matplotlib.pyplot as plt
 import pandas as pd
+
 
 def apply_style() -> None:
     """Apply consistent visual style and display options across all notebooks."""
@@ -21,6 +24,7 @@ def apply_style() -> None:
     # 2) Seaborn theme (optional; no hard dependency)
     try:
         import seaborn as sns
+
         sns.set_theme(style="whitegrid", context="notebook", palette="deep")
     except Exception:
         # Seaborn not installed; Matplotlib style already applied
