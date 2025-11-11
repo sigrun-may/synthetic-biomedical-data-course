@@ -5,37 +5,42 @@ description = "OER learning module built around Jupyter notebooks for synthetic 
 authors = ["Sigrun May <s.may@ostfalia.de>"]
 readme = "README.md"
 license = "MIT"
+packages = [
+    { include = "oer_utils", from = "notebooks" }
+]
 
 [tool.poetry.dependencies]
 python = ">=3.11,<3.13"
 
 # Core scientific stack
-numpy = "^2.0.0"
-scipy = "^1.13.0"
-pandas = "^2.2.0"
-scikit-learn = "^1.5.0"
+numpy = "*"
+scipy = "*"
+pandas = "*"
+scikit-learn = "*"
+statsmodels = "*"
 
 # Synthetic data generator
 biomedical-data-generator = {path = "../biomedical-data-generator", develop = true}
 # biomedical-data-generator = "*"
 
 # Plotting & widgets
-matplotlib = "^3.8.0"
+matplotlib = "*"
+seaborn = "*"
 plotly = "*"
-ipywidgets = "^8.1.0"
+ipywidgets = "*"
 
 # Jupyter tooling (notebook-first)
-jupyterlab = "^4.2.0"
-notebook = "^7.2.0"
-ipykernel = "^6.29.0"
-nbformat = "^5.10.0"
-nbconvert = "^7.16.0"
+jupyterlab = "*"
+notebook = "*"
+ipykernel = "*"
+nbformat = "*"
+nbconvert = "*"
 jupyterlab-git = "*"
-jupytext = "^1.16.0"
+jupytext = "*"
 
 # CLI & config (optional utilities)
-pydantic = "^2.7.0"
-pyyaml = "^6.0.0"
+pydantic = "*"
+pyyaml = "*"
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.2.0"
@@ -67,6 +72,9 @@ select = ["E","F","I","B","UP","N","A","C4","TID","SIM"]
 ignore = ["E203"]
 preview = true
 
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 [tool.black]
 line-length = 120
 target-version = ["py311"]
@@ -85,9 +93,27 @@ disallow_untyped_defs = true
 
 [tool.pytest.ini_options]
 minversion = "8.0"
-addopts = "-q --strict-markers --strict-config --cov=sbdc --cov-report=term-missing"
-testpaths = ["tests"]
+pythonpath = ["notebooks"]
+addopts = "-q --strict-markers --strict-config --cov=oer_utils --cov-report=term-missing"
+testpaths = ["notebooks/oer_utils_tests"]
 
 [tool.nbqa.config]
 black = { addopts = ["--line-length=100"] }
 ruff = { addopts = ["--fix"] }
+
+[tool.coverage.run]
+source = ["notebooks/oer_utils"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
