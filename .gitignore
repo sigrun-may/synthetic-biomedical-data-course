@@ -60,3 +60,14 @@ data/
 # --- OS files ---
 .DS_Store
 Thumbs.db
+
+# Internal analysis documents
+*ANALYSIS*.md
+*UPDATES_NEEDED*.md
+MVP_*.md
+
+# Development artifacts
+*.swp
+*.swo
+*~
+.pytest_cache/
