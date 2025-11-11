@@ -19,18 +19,11 @@ This package provides helper functions for the OER notebooks, organized by topic
 __version__ = "1.0.0"
 
 # Metrics
-from .metrics import cohens_d, compute_all_effect_sizes
-
 # Batch effects
 from .batch_effects import (
-    apply_random_intercepts,
-    make_batches,
     mean_center_per_batch,
     per_batch_stats,
 )
-
-# Reporting
-from .reporting import create_experiment_log, data_card
 
 # Evaluation
 from .evaluation import (
@@ -49,13 +42,16 @@ from .feature_selection import (
     rank_features_by_effect_size,
     rank_features_by_importance,
 )
+from .metrics import cohens_d, compute_all_effect_sizes
+
+# Reporting
+from .reporting import create_experiment_log, data_card
 
 # Plotting
 from .visualization import (
     plot_cv_comparison,
     plot_effect_sizes,
     plot_feature_distributions_by_class,
-    plot_feature_ranking_comparison,
     plot_performance_gap,
 )
 
@@ -64,8 +60,6 @@ __all__ = [
     "cohens_d",
     "compute_all_effect_sizes",
     # Batch effects
-    "make_batches",
-    "apply_random_intercepts",
     "per_batch_stats",
     "mean_center_per_batch",
     # Reporting
@@ -86,7 +80,6 @@ __all__ = [
     # Plotting
     "plot_feature_distributions_by_class",
     "plot_cv_comparison",
-    "plot_feature_ranking_comparison",
     "plot_effect_sizes",
     "plot_performance_gap",
 ]

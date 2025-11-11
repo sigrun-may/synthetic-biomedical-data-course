@@ -12,7 +12,7 @@ to quantify the separation between groups.
 
 from __future__ import annotations
 
-from typing import Sequence
+from collections.abc import Sequence
 
 import numpy as np
 import pandas as pd
@@ -23,7 +23,7 @@ __all__ = [
 ]
 
 
-def cohens_d(x: np.ndarray | pd.Series, y: np.ndarray | pd.Series, labels: tuple[int, int]) -> float:
+def cohens_d(x: np.ndarray | pd.Series, y: np.ndarray | pd.Series, labels: tuple[str | int, str | int]) -> float:
     """Compute Cohen's d effect size for binary classification.
 
     Cohen's d quantifies the difference between two group means in terms
@@ -103,11 +103,11 @@ def cohens_d(x: np.ndarray | pd.Series, y: np.ndarray | pd.Series, labels: tuple
     if pooled_std == 0:
         return 0.0
 
-    return (mean1 - mean0) / pooled_std
+    return float((mean1 - mean0) / pooled_std)
 
 
 def compute_all_effect_sizes(
-    X: pd.DataFrame,
+    x: pd.DataFrame,
     y: np.ndarray | pd.Series,
     labels: tuple[int, int] = (0, 1),
     feature_names: Sequence[str] | None = None,
@@ -118,7 +118,7 @@ def compute_all_effect_sizes(
     and sort them by magnitude.
 
     Args:
-        X: Feature DataFrame or 2D array (n_samples, n_features).
+        x: Feature DataFrame or 2D array (n_samples, n_features).
         y: Binary labels.
         labels: Tuple of (class0, class1) to compare.
         feature_names: Optional feature names. If None, uses X.columns
@@ -140,7 +140,7 @@ def compute_all_effect_sizes(
         ... )
         >>> X, y, meta = generate_dataset(cfg, return_dataframe=True)
         >>>
-        >>> effect_df = compute_all_effect_sizes(X, y)
+        >>> effect_df = compute_all_effect_sizes(x, y)
         >>> print(effect_df.head())
            feature  cohens_d  cohens_d_signed
         0       i1      2.15             2.15
@@ -154,19 +154,19 @@ def compute_all_effect_sizes(
         Use this to visualize feature importance in teaching context.
     """
     # Handle feature names
-    if isinstance(X, pd.DataFrame):
+    if isinstance(x, pd.DataFrame):
         if feature_names is None:
-            feature_names = X.columns.tolist()
-        X_array = X.values
+            feature_names = x.columns.tolist()
+        x_array = x.values
     else:
-        X_array = np.asarray(X)
+        x_array = np.asarray(x)
         if feature_names is None:
-            feature_names = [f"feature_{i}" for i in range(X_array.shape[1])]
+            feature_names = [f"feature_{i}" for i in range(x_array.shape[1])]
 
     # Compute Cohen's d for each feature
     results = []
     for i, name in enumerate(feature_names):
-        d = cohens_d(X_array[:, i], y, labels=labels)
+        d = cohens_d(x_array[:, i], y, labels=labels)
         results.append({"feature": name, "cohens_d": abs(d), "cohens_d_signed": d})
 
     # Create DataFrame and sort by absolute effect size
