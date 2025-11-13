@@ -17,9 +17,13 @@ except Exception:  # keep optional
 from biomedical_data_generator import CorrClusterConfig, DatasetConfig, NoiseDistribution
 from biomedical_data_generator.features.correlated import sample_cluster
 from biomedical_data_generator.generator import generate_dataset
-from biomedical_data_generator.utils.correlation_tools import find_seed_for_correlation_from_config
+from biomedical_data_generator.utils.correlation_tools import (
+    find_seed_for_correlation_from_config,
+    compute_correlation_matrix,
+)
 from biomedical_data_generator.utils.visualization import (
     plot_correlation_matrix_for_cluster,
+    plot_correlation_matrix,
 )
 from oer_utils.evaluation import compare_cv_schemes, evaluate_multiple_models
 from oer_utils.feature_selection import rank_features_by_effect_size
@@ -49,7 +53,9 @@ __all__ = [
     "plot_feature_distributions_by_class",
     "plot_effect_sizes",
     "plot_correlation_matrix_for_cluster",
+    "plot_correlation_matrix",
     "find_seed_for_correlation_from_config",
+    "compute_correlation_matrix",
     "sample_cluster",
     "make_pipeline",
     "RobustScaler",
