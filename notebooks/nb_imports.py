@@ -24,6 +24,7 @@ from biomedical_data_generator.utils.correlation_tools import (
 from biomedical_data_generator.utils.visualization import (
     plot_correlation_matrix_for_cluster,
     plot_correlation_matrix,
+    plot_all_correlation_clusters,
 )
 from oer_utils.evaluation import compare_cv_schemes, evaluate_multiple_models
 from oer_utils.feature_selection import rank_features_by_effect_size
@@ -54,6 +55,7 @@ __all__ = [
     "plot_effect_sizes",
     "plot_correlation_matrix_for_cluster",
     "plot_correlation_matrix",
+    "plot_all_correlation_clusters",
     "find_seed_for_correlation_from_config",
     "compute_correlation_matrix",
     "sample_cluster",
