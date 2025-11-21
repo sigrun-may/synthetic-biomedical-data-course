@@ -14,8 +14,8 @@ try:
 except Exception:  # keep optional
     sns = None
 
-from biomedical_data_generator import CorrClusterConfig, DatasetConfig, NoiseDistribution
-from biomedical_data_generator.features.correlated import sample_cluster
+from biomedical_data_generator import CorrClusterConfig, DatasetConfig, ClassConfig
+from biomedical_data_generator.features.correlated import sample_correlated_cluster
 from biomedical_data_generator.generator import generate_dataset
 from biomedical_data_generator.utils.correlation_tools import (
     find_seed_for_correlation_from_config,
@@ -34,9 +34,9 @@ from oer_utils.visualization import (
 )
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import balanced_accuracy_score, make_scorer
-from sklearn.model_selection import StratifiedKFold, cross_val_score
+from sklearn.model_selection import StratifiedKFold, cross_val_score, train_test_split
 from sklearn.pipeline import make_pipeline
-from sklearn.preprocessing import RobustScaler
+from sklearn.preprocessing import RobustScaler, StandardScaler
 
 __all__ = [
     "sys",
@@ -45,8 +45,8 @@ __all__ = [
     "plt",
     "sns",
     "DatasetConfig",
-    "NoiseDistribution",
     "CorrClusterConfig",
+    "ClassConfig",
     "generate_dataset",
     "rank_features_by_effect_size",
     "compare_cv_schemes",
@@ -58,11 +58,13 @@ __all__ = [
     "plot_all_correlation_clusters",
     "find_seed_for_correlation_from_config",
     "compute_correlation_matrix",
-    "sample_cluster",
+    "sample_correlated_cluster",
     "make_pipeline",
     "RobustScaler",
+    "StandardScaler",
     "LogisticRegression",
     "StratifiedKFold",
+    "train_test_split",
     "cross_val_score",
     "balanced_accuracy_score",
     "make_scorer",
