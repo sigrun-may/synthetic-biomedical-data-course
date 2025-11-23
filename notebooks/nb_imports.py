@@ -18,7 +18,6 @@ from biomedical_data_generator import CorrClusterConfig, DatasetConfig, ClassCon
 from biomedical_data_generator.features.correlated import sample_correlated_cluster
 from biomedical_data_generator.generator import generate_dataset
 from biomedical_data_generator.utils.correlation_tools import (
-    find_seed_for_correlation_from_config,
     compute_correlation_matrix,
 )
 from biomedical_data_generator.utils.visualization import (
