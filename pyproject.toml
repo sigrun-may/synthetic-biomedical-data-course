@@ -19,56 +19,56 @@ pandas = "*"
 scikit-learn = "*"
 statsmodels = "*"
 
-# Synthetic data generator
-biomedical-data-generator = {path = "../biomedical-data-generator", develop = true}
+# Synthetic data generator (development checkout)
+biomedical-data-generator = { path = "../biomedical-data-generator", develop = true }
 # biomedical-data-generator = "*"
 
-# Plotting & widgets
+# Plotting & widgets used in notebooks and nb_setup.py
 matplotlib = "*"
 seaborn = "*"
 plotly = "*"
 ipywidgets = "*"
+notebook = "^7.5.0"
 
-# Jupyter tooling (notebook-first)
-jupyterlab = "*"
-notebook = "*"
+[tool.poetry.group.jupyter.dependencies]
+# Optional: register this environment as a Jupyter kernel
 ipykernel = "*"
-nbformat = "*"
-nbconvert = "*"
-jupyterlab-git = "*"
-jupytext = "*"
 
-# CLI & config (optional utilities)
-pydantic = "*"
-pyyaml = "*"
-
-[tool.poetry.group.dev.dependencies]
-pytest = "^8.2.0"
-pytest-cov = "^5.0.0"
+[tool.poetry.group.lint.dependencies]
+# Linting / formatting / typing
 ruff = "^0.6.0"
-black = "^24.8.0"
+black = { extras = ["jupyter"], version = "^24.8.0" }
 isort = "^5.13.0"
 mypy = "^1.10.0"
+mdformat = "^0.7.18"
 nbqa = "^1.8.0"
 pre-commit = "^3.7.0"
-pytest-xdist = "^3.6.0"
-types-pyyaml = "^6.0.12"
+
+# Type stubs for better mypy coverage
+pandas-stubs = "*"
+types-PyYAML = "*"
+types-seaborn = "*"
 types-requests = "^2.32.0.20240914"
 
-[tool.poetry.scripts]
-sbdc = "sbdc.cli:app"
+[tool.poetry.group.dev.dependencies]
+# Testing and packaging
+pytest = "^8.2.0"
+pytest-cov = "^5.0.0"
+pytest-xdist = "^3.6.0"
+twine = "^6.2.0"
 
 [build-system]
 requires = ["poetry-core>=1.9.0"]
 build-backend = "poetry.core.masonry.api"
 
-# ---------- Lint/format ----------
+# ---------- Lint / format configuration ----------
+
 [tool.ruff]
 line-length = 120
 target-version = "py311"
 
 [tool.ruff.lint]
-select = ["E","F","I","B","UP","N","A","C4","TID","SIM"]
+select = ["E", "F", "I", "B", "UP", "N", "A", "C4", "TID", "SIM"]
 ignore = ["E203"]
 preview = true
 
@@ -82,7 +82,7 @@ target-version = ["py311"]
 [tool.isort]
 profile = "black"
 line_length = 120
-src_paths = ["src","tests"]
+src_paths = ["notebooks"]
 
 [tool.mypy]
 python_version = "3.11"
