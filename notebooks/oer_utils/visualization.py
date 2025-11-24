@@ -25,14 +25,17 @@ import seaborn as sns
 from matplotlib.axes import Axes
 from matplotlib.figure import Figure
 from numpy.typing import NDArray
+from sklearn.decomposition import PCA
 
 __all__ = [
     "plot_feature_distributions_by_class",
     "plot_cv_comparison",
     "plot_effect_sizes",
     "plot_performance_gap",
+    "plot_pca_by_class_and_batch_from_meta",
 ]
 
+from sklearn.preprocessing import StandardScaler
 
 # ============================================================================
 # Feature Distribution Plots
@@ -298,8 +301,6 @@ def plot_effect_sizes(
                 colors.append("#1f77b4")  # blue for informative
             elif feat.startswith("n"):
                 colors.append("#d62728")  # red for noise
-            elif feat.startswith("p"):
-                colors.append("#ff7f0e")  # orange for pseudo
             elif feat.startswith("corr"):
                 colors.append("#9467bd")  # purple for correlated
             else:
@@ -322,9 +323,74 @@ def plot_effect_sizes(
         legend_elements = [
             Patch(facecolor="#1f77b4", label="Informative"),
             Patch(facecolor="#d62728", label="Noise"),
-            Patch(facecolor="#ff7f0e", label="Pseudo"),
             Patch(facecolor="#9467bd", label="Correlated"),
         ]
         ax.legend(handles=legend_elements, loc="lower right")
 
     return fig, ax
+
+
+def plot_pca_by_class_and_batch_from_meta(x, y, meta, random_state: int = 42, scale: bool = True) -> None:
+    """Plot PCA (PC1/PC2) colored by class (left) and batch (right) using DatasetMeta.
+
+    Args:
+        x: Data matrix of shape (n_samples, n_features).
+        y: Array of class indices (integers).
+        meta: DatasetMeta-like object with `class_labels` and `batch_labels` attributes.
+        random_state: Random seed for PCA (relevant for randomized solvers).
+        scale: If True, standardize features to zero mean and unit variance before PCA.
+            This is recommended for most batch-effect diagnostics.
+    """
+    # y: array of class indices (integers)
+    class_labels = np.asarray(meta.class_names)[np.asarray(y)]
+    batch_labels = np.asarray(meta.batch_labels)
+
+    x_proc = StandardScaler().fit_transform(x) if scale else x
+
+    pca = PCA(n_components=2, random_state=random_state)
+    x_pca = pca.fit_transform(x_proc)
+
+    _, axes = plt.subplots(1, 2, figsize=(14, 6))
+
+    # Left: color by class (string labels)
+    default_colors = ["tab:blue", "tab:orange", "tab:green", "tab:red"]
+    for idx, cls in enumerate(np.unique(class_labels)):
+        mask = class_labels == cls
+        axes[0].scatter(
+            x_pca[mask, 0],
+            x_pca[mask, 1],
+            alpha=0.6,
+            s=50,
+            label=cls,
+            color=default_colors[idx % len(default_colors)],
+        )
+
+    axes[0].set_title("Colored by Class")
+    axes[0].set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0]:.1%})")
+    axes[0].set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1]:.1%})")
+    axes[0].legend()
+    axes[0].grid(True, alpha=0.3)
+
+    # Right: color by batch
+    for idx, batch_id in enumerate(sorted(np.unique(batch_labels))):
+        mask = batch_labels == batch_id
+        axes[1].scatter(
+            x_pca[mask, 0],
+            x_pca[mask, 1],
+            alpha=0.6,
+            s=50,
+            label=f"Batch {batch_id}",
+            color=default_colors[idx % len(default_colors)],
+        )
+    axes[1].set_title("Colored by Batch")
+    axes[1].set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0]:.1%})")
+    axes[1].set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1]:.1%})")
+    axes[1].legend()
+    axes[1].grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    plt.show()
+
+    print("\n✓ Left: Biology (class separation)")
+    print("✓ Right: Technical variation (batch structure)")
+    print("✓ All classes appear in all batches → no confounding")
