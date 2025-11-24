@@ -21,10 +21,13 @@ from collections.abc import Sequence
 
 import numpy as np
 import pandas as pd
+from IPython.display import display
 
 __all__ = [
     "per_batch_stats",
     "mean_center_per_batch",
+    "summarize_batch_distribution_by_class",
+    "summarize_class_balance_per_batch",
 ]
 
 
@@ -111,7 +114,7 @@ def mean_center_per_batch(x: pd.DataFrame, groups: np.ndarray, cols: Sequence[st
         1. Simple correction can help
         2. But it's not always sufficient (e.g., if batch confounded with class)
     """
-    df = x.copy()
+    df = x.copy(deep=True)
     batch_series = pd.Series(groups, index=df.index, name="batch")
 
     for col in cols:
@@ -119,3 +122,49 @@ def mean_center_per_batch(x: pd.DataFrame, groups: np.ndarray, cols: Sequence[st
         df[col] = df[col] - df.groupby(batch_series)[col].transform("mean")
 
     return df
+
+
+def summarize_batch_distribution_by_class(batch_labels, y, class_names) -> None:
+    """Print how samples of each class are distributed across batches.
+
+    Uses per-sample class_labels and batch_labels from DatasetMeta.
+
+    Args:
+        batch_labels: Array of batch labels (integers).
+        y: Array of class indices (integers).
+        class_names: List of class names (strings).
+    """
+    batch_labels = np.asarray(batch_labels)
+    y = np.asarray(y)
+    class_names = np.asarray(class_names)
+
+    print("\nBatch distribution within classes:")
+    for class_id, class_name in enumerate(class_names):
+        mask = y == class_id
+        counts = np.bincount(batch_labels[mask], minlength=batch_labels.max() + 1)
+        print(f"Class {class_id} - {class_name}:")
+        df = pd.DataFrame({"batch": range(len(counts)), "sample count": counts})
+        display(df.style.hide(axis="index"))
+
+
+def summarize_class_balance_per_batch(batch_labels, y, class_names, focus_class: str) -> None:
+    """Print the proportion of a given class (by name) in each batch.
+
+    Args:
+            batch_labels: Array of batch labels (integers).
+            y: Array of class indices (integers).
+            class_names: List of class names (strings).
+            focus_class: Class to focus on (e.g., "healthy").
+    """
+    batch_labels = np.asarray(batch_labels)
+    y = np.asarray(y)
+    class_names = np.asarray(class_names)
+    focus_class_idx = np.where(class_names == focus_class)[0][0]
+
+    print("\nClass balance per batch:")
+    for batch_id in np.unique(batch_labels):
+        mask_batch = batch_labels == batch_id
+        n_focus = np.sum(mask_batch & (y == focus_class_idx))
+        n_total = np.sum(mask_batch)
+        pct = 100 * n_focus / n_total
+        print(f"  Batch {batch_id}: {pct:.1f}% {focus_class}")
