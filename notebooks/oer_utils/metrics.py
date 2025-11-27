@@ -19,8 +19,76 @@ import pandas as pd
 
 __all__ = [
     "cohens_d",
+    "cliffs_delta",
     "compute_all_effect_sizes",
 ]
+
+
+def cliffs_delta(x: np.ndarray | pd.Series, y: np.ndarray | pd.Series, labels: tuple[str | int, str | int]) -> float:
+    """Compute Cliff's delta for binary classification.
+
+    Cliff's delta measures the probability that a random sample from class1
+    is larger than a random sample from class0 minus the reverse probability:
+
+        delta = (#(x1 > x0) - # (x1 < x0)) / (n0 * n1)
+
+    Range: [-1, 1]. Positive means class1 > class0 on average.
+
+    Args:
+        x: Feature values (array-like or pandas Series).
+        y: Binary labels (array-like).
+        labels: Tuple of (class0_label, class1_label) to compare.
+
+    Returns:
+        Cliff's delta (float). Returns 0.0 for trivial/degenerate cases.
+
+    Notes:
+        - Uses a memory-guarded vectorized path; for very large numbers of pairs
+          it falls back to an iterative counting loop to avoid O(n0*n1) memory usage.
+    """
+    # Convert to numpy arrays
+    if isinstance(x, pd.Series):
+        x = x.to_numpy()
+    if isinstance(y, pd.Series):
+        y = y.to_numpy()
+
+    x = np.asarray(x, dtype=float)
+    y = np.asarray(y)
+
+    class0, class1 = labels
+
+    # Split by class
+    x0 = x[y == class0]
+    x1 = x[y == class1]
+
+    n0, n1 = len(x0), len(x1)
+
+    # Edge cases
+    if n0 == 0 or n1 == 0:
+        return 0.0
+
+    total_pairs = int(n0) * int(n1)
+
+    # Guard threshold to avoid huge memory allocation for outer difference matrix
+    if total_pairs <= 10_000_000:
+        diff = np.subtract.outer(x1, x0)  # shape (n1, n0)
+        greater = int(np.count_nonzero(diff > 0))
+        less = int(np.count_nonzero(diff < 0))
+    else:
+        # iterative counting using the smaller loop to reduce overhead
+        greater = 0
+        less = 0
+        if n1 <= n0:
+            for xi in x1:
+                greater += int(np.count_nonzero(xi > x0))
+                less += int(np.count_nonzero(xi < x0))
+        else:
+            for xj in x0:
+                greater += int(np.count_nonzero(x1 > xj))
+                less += int(np.count_nonzero(x1 < xj))
+
+    delta = (greater - less) / float(total_pairs)
+    return float(delta)
 
 
 def cohens_d(x: np.ndarray | pd.Series, y: np.ndarray | pd.Series, labels: tuple[str | int, str | int]) -> float:
@@ -74,9 +142,9 @@ def cohens_d(x: np.ndarray | pd.Series, y: np.ndarray | pd.Series, labels: tuple
     """
     # Convert to numpy arrays
     if isinstance(x, pd.Series):
-        x = x.values
+        x = x.to_numpy()
     if isinstance(y, pd.Series):
-        y = y.values
+        y = y.to_numpy()
 
     x = np.asarray(x, dtype=float)
     y = np.asarray(y, dtype=int)
@@ -110,6 +178,7 @@ def compute_all_effect_sizes(
     x: pd.DataFrame,
     y: np.ndarray | pd.Series,
     labels: tuple[int, int] = (0, 1),
+    method: str = "cohens_d",
     feature_names: Sequence[str] | None = None,
 ) -> pd.DataFrame:
     """Compute Cohen's d for all features and return ranked DataFrame.
@@ -121,6 +190,7 @@ def compute_all_effect_sizes(
         x: Feature DataFrame or 2D array (n_samples, n_features).
         y: Binary labels.
         labels: Tuple of (class0, class1) to compare.
+        method: Effect size computation method ("cohens_d" or "cliffs_delta").
         feature_names: Optional feature names. If None, uses X.columns
             (if DataFrame) or generates generic names.
 
@@ -142,7 +212,7 @@ def compute_all_effect_sizes(
         >>>
         >>> effect_df = compute_all_effect_sizes(x, y)
         >>> print(effect_df.head())
-           feature  cohens_d  cohens_d_signed
+           feature  |effect_size|  cohens_d_signed
         0       i1      2.15             2.15
         1       i2      1.98             1.98
         2       i3      1.87            -1.87
@@ -163,14 +233,18 @@ def compute_all_effect_sizes(
         if feature_names is None:
             feature_names = [f"feature_{i}" for i in range(x_array.shape[1])]
 
-    # Compute Cohen's d for each feature
     results = []
     for i, name in enumerate(feature_names):
-        d = cohens_d(x_array[:, i], y, labels=labels)
-        results.append({"feature": name, "cohens_d": abs(d), "cohens_d_signed": d})
+        if method == "cliffs_delta":
+            # Compute Cliff's delta for each feature
+            d = cliffs_delta(x_array[:, i], y, labels=labels)
+            results.append({"feature": name, "|effect_size|": abs(d), "cliffs_delta": d})
+        elif method == "cohens_d":
+            # Compute Cohen's d for each feature
+            d = cohens_d(x_array[:, i], y, labels=labels)
+            results.append({"feature": name, "|effect_size|": abs(d), "cohens_d": d})
 
     # Create DataFrame and sort by absolute effect size
     df = pd.DataFrame(results)
-    df = df.sort_values("cohens_d", ascending=False).reset_index(drop=True)
-
+    df = df.set_index("feature", drop=True).sort_values("|effect_size|", ascending=False)
     return df
