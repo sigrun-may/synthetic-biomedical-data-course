@@ -20,8 +20,8 @@ scikit-learn = "*"
 statsmodels = "*"
 
 # Synthetic data generator (development checkout)
-biomedical-data-generator = { path = "../biomedical-data-generator", develop = true }
-# biomedical-data-generator = "*"
+# biomedical-data-generator = { path = "../biomedical-data-generator", develop = true }
+biomedical-data-generator = "1.0.0"
 
 # Plotting & widgets used in notebooks and nb_setup.py
 matplotlib = "*"
