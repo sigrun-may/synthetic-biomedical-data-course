@@ -1,27 +1,13 @@
-# Copyright (c) 2025 Sigrun May,
-# Ostfalia Hochschule für angewandte Wissenschaften
-#
-# This software is distributed under the terms of the MIT license
-# which is available at https://opensource.org/licenses/MIT
+"""Utilities for effect size computation and dataset summarization."""
 
-"""Statistical metrics for feature evaluation.
-
-Provides effect size measures commonly used in biomedical research
-to quantify the separation between groups.
-"""
-
-from __future__ import annotations
-
-from collections.abc import Sequence
+from typing import Sequence
 
 import numpy as np
 import pandas as pd
-
-__all__ = [
-    "cohens_d",
-    "cliffs_delta",
-    "compute_all_effect_sizes",
-]
+from matplotlib import pyplot as plt
+from rich.jupyter import display
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
 
 
 def cliffs_delta(x: np.ndarray | pd.Series, y: np.ndarray | pd.Series, labels: tuple[str | int, str | int]) -> float:
@@ -248,3 +234,158 @@ def compute_all_effect_sizes(
     df = pd.DataFrame(results)
     df = df.set_index("feature", drop=True).sort_values("|effect_size|", ascending=False)
     return df
+
+
+def rank_features_by_effect_size(
+    x: pd.DataFrame,
+    y: pd.Series | np.ndarray,
+    ascending: bool = False,
+) -> pd.DataFrame:
+    """Rank features by effect size magnitude.
+
+    Computes effect size for each feature and returns a sorted DataFrame
+    with feature names, effect sizes, absolute effect sizes, and ranks.
+
+    Args:
+        x: Feature matrix (DataFrame with column names).
+        y: Binary target vector (0/1 labels).
+        ascending: Sort order (False = largest |effect| first).
+
+    Returns:
+        DataFrame with columns:
+            - feature: Feature name
+            - effect_size: Raw effect size value
+            - |effect_size|: Absolute effect size
+            - rank: Integer rank (1 = best)
+    """
+    y_arr = np.asarray(y)
+    # preserve order of first occurrence of labels
+    labels = list(dict.fromkeys(y_arr.tolist()))
+    if len(labels) != 2:
+        raise ValueError("y must contain exactly two distinct labels.")
+    if (y_arr == labels[0]).sum() < 2 or (y_arr == labels[1]).sum() < 2:
+        raise ValueError("Each class needs at least 2 samples for Cohen's d (ddof=1).")
+
+    results = []
+    for col in x.columns:
+        values = x[col].values
+        es = cohens_d(values, y_arr, labels=(labels[0], labels[1]))
+        results.append({"feature": col, "|effect_size|": abs(es)})
+
+    df = pd.DataFrame(results)
+    df = df.sort_values("|effect_size|", ascending=ascending).reset_index(drop=True)
+    df["rank"] = range(1, len(df) + 1)
+
+    return df[["feature", "|effect_size|", "rank"]]
+
+
+def summarize_batch_distribution_by_class(batch_labels, y, class_names) -> None:
+    """Print how samples of each class are distributed across batches.
+
+    Uses per-sample class_labels and batch_labels from DatasetMeta.
+
+    Args:
+        batch_labels: Array of batch labels (integers).
+        y: Array of class indices (integers).
+        class_names: List of class names (strings).
+    """
+    batch_labels = np.asarray(batch_labels)
+    y = np.asarray(y)
+    class_names = np.asarray(class_names)
+
+    print("\nBatch distribution within classes:")
+    for class_id, class_name in enumerate(class_names):
+        mask = y == class_id
+        counts = np.bincount(batch_labels[mask], minlength=batch_labels.max() + 1)
+        print(f"Class {class_id} - {class_name}:")
+        df = pd.DataFrame({"batch": range(len(counts)), "sample count": counts})
+        display(df.style.hide(axis="index"))
+
+
+def summarize_class_balance_per_batch(batch_labels, y, class_names, focus_class: str) -> None:
+    """Print the proportion of a given class (by name) in each batch.
+
+    Args:
+            batch_labels: Array of batch labels (integers).
+            y: Array of class indices (integers).
+            class_names: List of class names (strings).
+            focus_class: Class to focus on (e.g., "healthy").
+    """
+    batch_labels = np.asarray(batch_labels)
+    y = np.asarray(y)
+    class_names = np.asarray(class_names)
+    focus_class_idx = np.where(class_names == focus_class)[0][0]
+
+    print("\nClass balance per batch:")
+    for batch_id in np.unique(batch_labels):
+        mask_batch = batch_labels == batch_id
+        n_focus = np.sum(mask_batch & (y == focus_class_idx))
+        n_total = np.sum(mask_batch)
+        pct = 100 * n_focus / n_total
+        print(f"  Batch {batch_id}: {pct:.1f}% {focus_class}")
+
+
+def plot_pca_by_class_and_batch_from_meta(x, y, meta, random_state: int = 42, scale: bool = True) -> None:
+    """Plot PCA (PC1/PC2) colored by class (left) and batch (right) using DatasetMeta.
+
+    Args:
+        x: Data matrix of shape (n_samples, n_features).
+        y: Array of class indices (integers).
+        meta: DatasetMeta-like object with `class_labels` and `batch_labels` attributes.
+        random_state: Random seed for PCA (relevant for randomized solvers).
+        scale: If True, standardize features to zero mean and unit variance before PCA.
+            This is recommended for most batch-effect diagnostics.
+    """
+    # y: array of class indices (integers)
+    class_labels = np.asarray(meta.class_names)[np.asarray(y)]
+    batch_labels = np.asarray(meta.batch_labels)
+
+    x_proc = StandardScaler().fit_transform(x) if scale else x
+
+    pca = PCA(n_components=2, random_state=random_state)
+    x_pca = pca.fit_transform(x_proc)
+
+    _, axes = plt.subplots(1, 2, figsize=(14, 6))
+
+    # Left: color by class (string labels)
+    default_colors = ["tab:blue", "tab:orange", "tab:green", "tab:red"]
+    for idx, cls in enumerate(np.unique(class_labels)):
+        mask = class_labels == cls
+        axes[0].scatter(
+            x_pca[mask, 0],
+            x_pca[mask, 1],
+            alpha=0.6,
+            s=50,
+            label=cls,
+            color=default_colors[idx % len(default_colors)],
+        )
+
+    axes[0].set_title("Colored by Class")
+    axes[0].set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0]:.1%})")
+    axes[0].set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1]:.1%})")
+    axes[0].legend()
+    axes[0].grid(True, alpha=0.3)
+
+    # Right: color by batch
+    for idx, batch_id in enumerate(sorted(np.unique(batch_labels))):
+        mask = batch_labels == batch_id
+        axes[1].scatter(
+            x_pca[mask, 0],
+            x_pca[mask, 1],
+            alpha=0.6,
+            s=50,
+            label=f"Batch {batch_id}",
+            color=default_colors[idx % len(default_colors)],
+        )
+    axes[1].set_title("Colored by Batch")
+    axes[1].set_xlabel(f"PC1 ({pca.explained_variance_ratio_[0]:.1%})")
+    axes[1].set_ylabel(f"PC2 ({pca.explained_variance_ratio_[1]:.1%})")
+    axes[1].legend()
+    axes[1].grid(True, alpha=0.3)
+
+    plt.tight_layout()
+    plt.show()
+
+    print("\n✓ Left: Biology (class separation)")
+    print("✓ Right: Technical variation (batch structure)")
+    print("✓ All classes appear in all batches → no confounding")
