@@ -206,7 +206,7 @@ This lesson addresses the critical challenge of **confounding** and **batch effe
 
 ## Learning Outcomes
 
-After completing this module, you will be able to generate synthetic biomedical datasets with realistic properties including:
+After completing this module, you will be able to generate synthetic biomedical datasets including:
    - Controlled signal-to-noise ratios
    - Correlated feature clusters mimicking biological pathways
    - Non-causal variation (batch effects, site differences)
