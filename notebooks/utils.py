@@ -1,11 +1,11 @@
 """Utilities for effect size computation and dataset summarization."""
 
-from typing import Sequence
+from collections.abc import Sequence
 
 import numpy as np
 import pandas as pd
+from biomedical_data_generator.meta import DatasetMeta
 from matplotlib import pyplot as plt
-from rich.jupyter import display
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
@@ -279,29 +279,6 @@ def rank_features_by_effect_size(
     return df[["feature", "|effect_size|", "rank"]]
 
 
-def summarize_batch_distribution_by_class(batch_labels, y, class_names) -> None:
-    """Print how samples of each class are distributed across batches.
-
-    Uses per-sample class_labels and batch_labels from DatasetMeta.
-
-    Args:
-        batch_labels: Array of batch labels (integers).
-        y: Array of class indices (integers).
-        class_names: List of class names (strings).
-    """
-    batch_labels = np.asarray(batch_labels)
-    y = np.asarray(y)
-    class_names = np.asarray(class_names)
-
-    print("\nBatch distribution within classes:")
-    for class_id, class_name in enumerate(class_names):
-        mask = y == class_id
-        counts = np.bincount(batch_labels[mask], minlength=batch_labels.max() + 1)
-        print(f"Class {class_id} - {class_name}:")
-        df = pd.DataFrame({"batch": range(len(counts)), "sample count": counts})
-        display(df.style.hide(axis="index"))
-
-
 def summarize_class_balance_per_batch(batch_labels, y, class_names, focus_class: str) -> None:
     """Print the proportion of a given class (by name) in each batch.
 
@@ -325,7 +302,7 @@ def summarize_class_balance_per_batch(batch_labels, y, class_names, focus_class:
         print(f"  Batch {batch_id}: {pct:.1f}% {focus_class}")
 
 
-def plot_pca_by_class_and_batch_from_meta(x, y, meta, random_state: int = 42, scale: bool = True) -> None:
+def plot_pca_by_class_and_batch_from_meta(x, y, meta: DatasetMeta, random_state: int = 42, scale: bool = True) -> None:
     """Plot PCA (PC1/PC2) colored by class (left) and batch (right) using DatasetMeta.
 
     Args:
