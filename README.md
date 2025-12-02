@@ -1,4 +1,4 @@
-![KI4ALL](/home/sma19/PycharmProjects/synthetic-biomedical-data-course/notebooks/img/header.png)
+![KI4ALL](notebooks/img/header.png)
 
 # Microcredit Synthetic Biomedical Data
 
