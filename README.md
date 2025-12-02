@@ -13,8 +13,8 @@ ______________________________________________________________________
 ## Overview
 
 The **Synthetic Biomedical Data** Microcredit teaches you how to generate, understand, and use synthetic biomedical datasets for education, benchmarking, and method testing.
-
-This hands-on module is designed around a critical challenge in biomedical data science: working with **high-dimensional data** where the number of features (p) greatly exceeds the number of samples (n) – the so-called **p≫n problem**. You'll learn how to safely generate synthetic data that mimics biomedical patterns in oder to avoid common pitfalls in feature selection, model evaluation, and interpretation.
+You'll learn how to safely generate synthetic data that mimics biomedical patterns in oder to avoid common pitfalls in feature selection, model evaluation, and interpretation.
+This course is based on the [**`biomedical-data-generator`**](https://github.com/sigrun-may/biomedical-data-generator) Python package.
 
 ### What you'll learn
 
@@ -39,21 +39,16 @@ ______________________________________________________________________
 
 ## Target Audience
 
-This module is designed for:
-
-- **Bioinformatics students** learning about feature selection pitfalls and evaluation best practices
-- **Researchers** who need benchmarking tools for method comparison in high-dimensional settings
-- **Instructors** requiring reproducible demonstrations of common ML mistakes in biomedical contexts
-- **Data scientists** transitioning to biomedical applications and seeking domain-specific insights
+The course is designed for advanced Bachelor/Master students or learners interested in data science, bioinformatics and biomedical AI.
 
 ### Prerequisites
 
-You should have:
+You should:
 
-- Basic knowledge of **statistics** (distributions, correlation)
-- Working proficiency in **Python** (see [Python Introduction](https://git.rz.tu-bs.de/ifn-public/ki4all/python-introduction))
-- Familiarity with **machine learning fundamentals** (classification, features, labels, cross-validation) – see [Machine Learning Introduction](https://git.rz.tu-bs.de/ifn-public/ki4all/machine-learning-introduction)
-- Understanding of **NumPy** and **Pandas** for data manipulation
+- have basic knowledge of **statistics** (distributions, correlation)
+- be comfortable using **Python** (see [Python Introduction](https://git.rz.tu-bs.de/ifn-public/ki4all/python-introduction))
+- have basic understanding of **NumPy** and **Pandas** for data manipulation
+- be familiar with **machine learning fundamentals** (classification, features, labels, cross-validation) – see [Machine Learning Introduction](https://git.rz.tu-bs.de/ifn-public/ki4all/machine-learning-introduction)
 
 ______________________________________________________________________
 
@@ -255,6 +250,8 @@ ______________________________________________________________________
 
 ## Learning Approach
 
+This hands-on module is designed around a critical challenge in biomedical data science: working with **high-dimensional data** where the number of features (p) greatly exceeds the number of samples (n) – the so-called **p≫n problem**. 
+
 1. **Concrete examples first**: Start with simple, clean datasets before adding complexity
 1. **Progressive difficulty**: Each lesson builds on previous concepts
 1. **Hands-on exercises**: Code cells for experimentation and reflection questions
@@ -262,46 +259,44 @@ ______________________________________________________________________
 1. **Known ground truth**: Always compare results to what you defined
 1. **Transfer to reality**: Explicit connections to real-world biomedical challenges
 
-The module relies on the **`biomedical-data-generator`** Python package.
-
-______________________________________________________________________
-
-## Contributing
-
-We welcome contributions! Please see `CONTRIBUTING.md` for guidelines on:
-
-- Reporting bugs
-- Suggesting improvements
-- Adding new correlation structures or distributions
-- Creating additional educational examples
-- Improving documentation
-
 ______________________________________________________________________
 
 ## License
 
-This project uses a **dual-license model**:
+All materials in this repository (notebooks, text, images, and example code) are licensed under  
+**Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**:  
+<https://creativecommons.org/licenses/by-sa/4.0/>
 
-- **Software code** (`biomedical-data-generator` package): [MIT License](https://opensource.org/licenses/MIT)
-- **Educational content** (notebooks, text, images): [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)
+You are free to use, modify, and share these materials as long as you give appropriate credit
+and distribute any adaptations under the same license. Third-party libraries used in the code
+remain under their respective licenses.
 
-You are free to use, modify, and share these materials under these terms.
+[//]: # (______________________________________________________________________)
 
-______________________________________________________________________
+[//]: # ()
+[//]: # (## Citation)
 
-## Citation
+[//]: # ()
+[//]: # (If you use this module in teaching or research, please cite:)
 
-If you use this module in teaching or research, please cite:
+[//]: # ()
+[//]: # (```bibtex)
 
-```bibtex
-@software{synthetic_biomedical_data_course,
-  author = {May, Sigrun and Katron, Johann and Kober, Daria},
-  title = {Microcredit Synthetic Biomedical Data: An Open Educational Resource},
-  year = {2025},
-  publisher = {TU Braunschweig, Ostfalia Hochschule, TU Clausthal},
-  url = {https://github.com/sigrun-may/synthetic-biomedical-data-course}
-}
-```
+[//]: # (@software{synthetic_biomedical_data_course,)
+
+[//]: # (  author = {May, Sigrun and Katron, Johann and Kober, Daria},)
+
+[//]: # (  title = {Microcredit Synthetic Biomedical Data},)
+
+[//]: # (  year = {2025},)
+
+[//]: # (  publisher = {TU Braunschweig, Ostfalia Hochschule, TU Clausthal},)
+
+[//]: # (  url = {https://github.com/sigrun-may/synthetic-biomedical-data-course})
+
+[//]: # (})
+
+[//]: # (```)
 
 ______________________________________________________________________
 
@@ -316,4 +311,5 @@ ______________________________________________________________________
 - **Questions about content**: Open an issue on GitHub
 - **Bug reports**: Use the issue tracker with the `bug` label
 - **Feature requests**: Use the issue tracker with the `enhancement` label
-- **General feedback**: Contact the authors via email (see author section)
+- **General discussions**: Join the [GitHub Discussions](https://github.com/sigrun-may/synthetic-biomedical-data-course/discussions)
+- **Contact**: s.may[at]ostfalia.de
