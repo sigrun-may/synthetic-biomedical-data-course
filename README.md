@@ -1,3 +1,26 @@
+<div style="background-color:white;" >
+<div style="clear: both; display: table;">
+  <div style="float: left; width: 14%; padding: 5px; height:auto">
+    <img src="notebooks/img/TUBraunschweig_CO_200vH_300dpi.jpg" alt="TU_Braunschweig" style="width:100%">
+  </div>
+  <div style="float: left; width: 28%; padding: 5px; height:auto">
+    <img src="notebooks/img/TU_Clausthal_Logo.png" alt="TU_Clausthal" style="width:100%">
+  </div>
+  <div style="float: left; width: 25%; padding: 5px; height:auto">
+    <img src="notebooks/img/ostfalia.jpg" alt="Ostfalia" style="width:100%">
+  </div>
+  <div style="float: left; width: 21%; padding: 5px;">
+    <img src="notebooks/img/niedersachsen_rgb_whitebg.png" alt="Niedersachsen" style="width:100%">
+  </div>
+  <div style="float: left; width: 9%; padding: 5px;">
+    <img src="notebooks/img/internet_BMBF_gefoerdert_2017_en.jpg" alt="bmbf" style="width:100%">
+  </div>
+</div>
+<div style="text-align:center">
+<img src="notebooks/img/ki4all.jpg" alt="KI4ALL-Logo" width="200"/>
+</div>
+</div>
+
 # Microcredit Synthetic Biomedical Data
 
 **Author:** Sigrun May, Johann Katron, Daria Kober\
