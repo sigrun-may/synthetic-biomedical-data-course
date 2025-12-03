@@ -234,6 +234,7 @@ This project uses [Poetry](https://python-poetry.org/) for dependency management
 ```bash
 pipx install poetry
 ```
+https://python-poetry.org/docs/#installation
 
 **Step 2: Clone the repository**
 
@@ -252,7 +253,7 @@ ______________________________________________________________________
 
 ## Learning Approach
 
-This hands-on module is designed around a critical challenge in biomedical data science: working with **high-dimensional data** where the number of features (p) greatly exceeds the number of samples (n) – the so-called **p≫n problem**. 
+This hands-on module is designed around a critical challenge in biomedical data science: working with **high-dimensional data** where the number of features (p) greatly exceeds the number of samples (n) – the so-called **p≫n problem**.
 
 1. **Concrete examples first**: Start with simple, clean datasets before adding complexity
 1. **Progressive difficulty**: Each lesson builds on previous concepts
@@ -265,40 +266,13 @@ ______________________________________________________________________
 
 ## License
 
-All materials in this repository (notebooks, text, images, and example code) are licensed under  
-**Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**:  
+All materials in this repository (notebooks, text, images, and example code) are licensed under\
+**Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**:\
 <https://creativecommons.org/licenses/by-sa/4.0/>
 
 You are free to use, modify, and share these materials as long as you give appropriate credit
 and distribute any adaptations under the same license. Third-party libraries used in the code
 remain under their respective licenses.
-
-[//]: # (______________________________________________________________________)
-
-[//]: # ()
-[//]: # (## Citation)
-
-[//]: # ()
-[//]: # (If you use this module in teaching or research, please cite:)
-
-[//]: # ()
-[//]: # (```bibtex)
-
-[//]: # (@software{synthetic_biomedical_data_course,)
-
-[//]: # (  author = {May, Sigrun and Katron, Johann and Kober, Daria},)
-
-[//]: # (  title = {Microcredit Synthetic Biomedical Data},)
-
-[//]: # (  year = {2025},)
-
-[//]: # (  publisher = {TU Braunschweig, Ostfalia Hochschule, TU Clausthal},)
-
-[//]: # (  url = {https://github.com/sigrun-may/synthetic-biomedical-data-course})
-
-[//]: # (})
-
-[//]: # (```)
 
 ______________________________________________________________________
 
