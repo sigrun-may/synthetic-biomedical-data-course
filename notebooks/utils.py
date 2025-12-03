@@ -6,11 +6,16 @@ import numpy as np
 import pandas as pd
 from biomedical_data_generator.meta import DatasetMeta
 from matplotlib import pyplot as plt
+from pandas.api.extensions import ExtensionArray
 from sklearn.decomposition import PCA
 from sklearn.preprocessing import StandardScaler
 
 
-def cliffs_delta(x: np.ndarray | pd.Series, y: np.ndarray | pd.Series, labels: tuple[str | int, str | int]) -> float:
+def cliffs_delta(
+    x: np.ndarray | pd.Series | Sequence[float] | ExtensionArray,
+    y: np.ndarray | pd.Series | Sequence[int] | ExtensionArray,
+    labels: tuple[str | int, str | int],
+) -> float:
     """Compute Cliff's delta for binary classification.
 
     Cliff's delta measures the probability that a random sample from class1
@@ -77,7 +82,11 @@ def cliffs_delta(x: np.ndarray | pd.Series, y: np.ndarray | pd.Series, labels: t
     return float(delta)
 
 
-def cohens_d(x: np.ndarray | pd.Series, y: np.ndarray | pd.Series, labels: tuple[str | int, str | int]) -> float:
+def cohens_d(
+    x: np.ndarray | pd.Series | Sequence[float] | ExtensionArray,
+    y: np.ndarray | pd.Series | Sequence[int] | ExtensionArray,
+    labels: tuple[str | int, str | int],
+) -> float:
     """Compute Cohen's d effect size for binary classification.
 
     Cohen's d quantifies the difference between two group means in terms
@@ -279,7 +288,12 @@ def rank_features_by_effect_size(
     return df[["feature", "|effect_size|", "rank"]]
 
 
-def summarize_class_balance_per_batch(batch_labels, y, class_names, focus_class: str) -> None:
+def summarize_class_balance_per_batch(
+    batch_labels: np.ndarray | Sequence[int] | ExtensionArray,
+    y: np.ndarray | Sequence[int] | ExtensionArray,
+    class_names: Sequence[str] | np.ndarray | pd.Index,
+    focus_class: str,
+) -> None:
     """Print the proportion of a given class (by name) in each batch.
 
     Args:
@@ -302,7 +316,13 @@ def summarize_class_balance_per_batch(batch_labels, y, class_names, focus_class:
         print(f"  Batch {batch_id}: {pct:.1f}% {focus_class}")
 
 
-def plot_pca_by_class_and_batch_from_meta(x, y, meta: DatasetMeta, random_state: int = 42, scale: bool = True) -> None:
+def plot_pca_by_class_and_batch_from_meta(
+    x: np.ndarray | pd.DataFrame,
+    y: np.ndarray | pd.Series | ExtensionArray,
+    meta: DatasetMeta,
+    random_state: int = 42,
+    scale: bool = True,
+) -> None:
     """Plot PCA (PC1/PC2) colored by class (left) and batch (right) using DatasetMeta.
 
     Args:
