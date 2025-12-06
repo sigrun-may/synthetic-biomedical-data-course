@@ -4,13 +4,11 @@ version = "0.1.0"
 description = "OER learning module built around Jupyter notebooks for synthetic biomedical data."
 authors = ["Sigrun May <s.may@ostfalia.de>"]
 readme = "README.md"
-license = "MIT"
-packages = [
-    { include = "oer_utils", from = "notebooks" }
-]
+license = "CC-BY-SA-4.0"
+packages = [{include = "notebooks" }]
 
 [tool.poetry.dependencies]
-python = ">=3.11,<3.13"
+python = ">=3.11,<3.15"
 
 # Core scientific stack
 numpy = "*"
@@ -94,15 +92,15 @@ disallow_untyped_defs = true
 [tool.pytest.ini_options]
 minversion = "8.0"
 pythonpath = ["notebooks"]
-addopts = "-q --strict-markers --strict-config --cov=oer_utils --cov-report=term-missing"
-testpaths = ["notebooks/oer_utils_tests"]
+addopts = "-q --strict-markers --strict-config --cov-report=term-missing"
+testpaths = ["notebooks"]
 
 [tool.nbqa.config]
 black = { addopts = ["--line-length=100"] }
 ruff = { addopts = ["--fix"] }
 
 [tool.coverage.run]
-source = ["notebooks/oer_utils"]
+source = ["notebooks"]
 omit = [
     "*/tests/*",
     "*/test_*.py",
