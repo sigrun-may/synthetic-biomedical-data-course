@@ -1,0 +1,11 @@
+# Core scientific stack
+numpy
+pandas
+scikit-learn
+
+# Synthetic data generator (from PyPI)
+biomedical-data-generator==1.0.0
+
+# Visualization
+matplotlib
+seaborn
