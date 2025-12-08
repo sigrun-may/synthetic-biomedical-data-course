@@ -6,7 +6,7 @@
 **Date:** November 2025\
 **Version:** 4\
 **Credits:** 1 ECTS\
-**License:** [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/)\
+**License:** [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)\
 **Developed by:** [TU Braunschweig](https://www.tu-braunschweig.de/), [Ostfalia Hochschule](https://landing.ostfalia.de/) and [TU Clausthal](https://www.tu-clausthal.de/)\
 **Sponsored by** [Bundesministerium für Bildung und Forschung](https://www.bmbf.de/bmbf/de/home/home_node.html)
 
