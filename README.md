@@ -58,6 +58,11 @@ ______________________________________________________________________
 
 The module consists of **9 progressive lessons**, each delivered as a Jupyter Notebook with theory, code examples, and hands-on exercises.
 
+[![Binder](https://mybinder.org/badge_logo.svg)](
+  https://mybinder.org/v2/gh/sigrun-may/synthetic-biomedical-data-course/HEAD?urlpath=lab/tree/notebooks/01_intro.ipynb
+)
+
+
 ### 📘 Lesson 1: Introduction to Synthetic Biomedical Data
 
 **Notebook:** `01_intro.ipynb`
@@ -234,6 +239,7 @@ This project uses [Poetry](https://python-poetry.org/) for dependency management
 ```bash
 pipx install poetry
 ```
+
 https://python-poetry.org/docs/#installation
 
 **Step 2: Clone the repository**
