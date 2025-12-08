@@ -296,15 +296,10 @@ ______________________________________________________________________
 
 ## License
 
-The teaching materials in this repository (notebooks, text, and images) are licensed under the
+Unless otherwise noted, all contents of this repository
+(Jupyter notebooks, text, figures, and example code)
+are licensed under the
 [Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
-
-You are free to:
-- **Share** — copy and redistribute the material in any medium or format.
-- **Adapt** — remix, transform, and build upon the material for any purpose.
-
-Under the following terms:
-- **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made.
 
 The materials are provided **“as is”**, **without any warranties** or guarantees of correctness or fitness for a particular purpose.
 The authors and institutions assume **no liability** for any use of the content.
