@@ -53,15 +53,15 @@ You should:
 - be familiar with **machine learning fundamentals** (classification, features, labels, cross-validation) – see [Machine Learning Introduction](https://git.rz.tu-bs.de/ifn-public/ki4all/machine-learning-introduction)
 
 ______________________________________________________________________
-
 ## Module Structure
 
 The module consists of **9 progressive lessons**, each delivered as a Jupyter Notebook with theory, code examples, and hands-on exercises.
 
-[![Binder](https://mybinder.org/badge_logo.svg)](
-  https://mybinder.org/v2/gh/sigrun-may/synthetic-biomedical-data-course/HEAD?urlpath=lab/tree/notebooks/01_intro.ipynb
-)
+### Launch the course in your browser
 
+You can run all notebooks directly in your browser via Binder (no local installation required):
+
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/sigrun-may/synthetic-biomedical-data-course/HEAD?urlpath=lab/tree/notebooks/01_intro.ipynb)
 
 ### 📘 Lesson 1: Introduction to Synthetic Biomedical Data
 
@@ -229,18 +229,35 @@ After completing this module, you will be able to generate synthetic biomedical 
 - Mixture of informative and irrelevant features
 
 ______________________________________________________________________
-
 ## Getting Started
 
-This project uses [Poetry](https://python-poetry.org/) for dependency management.
+You have two options to work with this course:
+
+### Option 1 – Run online (recommended for learners)
+
+The easiest way to use this module is to run it directly in your browser via Binder.
+
+1. Click the **Binder badge above** or use this link:
+   [Open the course on Binder](https://mybinder.org/v2/gh/sigrun-may/synthetic-biomedical-data-course/HEAD?urlpath=lab/tree/notebooks/01_intro.ipynb)
+2. Wait until the environment has finished building and JupyterLab opens.
+3. Start with `01_intro.ipynb`.
+
+> Note: Binder sessions are temporary. If you want to save your changes permanently,
+> download the notebooks or run the course locally (see Option 2).
+
+### Option 2 – Run locally with Poetry
+
+If you prefer a local installation (e.g., for offline teaching or development), you can use
+[Poetry](https://python-poetry.org/) for dependency management.
 
 **Step 1: Install Poetry**
+
+We recommend installing Poetry via `pipx`. For more details see the [Poetry installation guide](https://python-poetry.org/docs/#installation).
 
 ```bash
 pipx install poetry
 ```
 
-https://python-poetry.org/docs/#installation
 
 **Step 2: Clone the repository**
 
@@ -255,6 +272,13 @@ cd synthetic-biomedical-data-course
 poetry install
 ```
 
+**Step 4: Launch JupyterLab**
+
+```bash
+poetry run jupyter lab
+```
+
+Then open the notebooks/ folder and start with 01_intro.ipynb.
 ______________________________________________________________________
 
 ## Learning Approach
@@ -272,14 +296,18 @@ ______________________________________________________________________
 
 ## License
 
-All materials in this repository (notebooks, text, images, and example code) are licensed under\
-**Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)**:\
-<https://creativecommons.org/licenses/by-sa/4.0/>
+The teaching materials in this repository (notebooks, text, and images) are licensed under the
+[Creative Commons Attribution 4.0 International License (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/).
 
-You are free to use, modify, and share these materials as long as you give appropriate credit
-and distribute any adaptations under the same license. Third-party libraries used in the code
-remain under their respective licenses.
+You are free to:
+- **Share** — copy and redistribute the material in any medium or format.
+- **Adapt** — remix, transform, and build upon the material for any purpose.
 
+Under the following terms:
+- **Attribution** — You must give appropriate credit, provide a link to the license, and indicate if changes were made.
+
+The materials are provided **“as is”**, **without any warranties** or guarantees of correctness or fitness for a particular purpose.
+The authors and institutions assume **no liability** for any use of the content.
 ______________________________________________________________________
 
 ## Acknowledgments
